@@ -112,7 +112,7 @@ function addElement(currentLink, element, type) {
         } else {
             element.position(startPosition.x, startPosition.y + 100)
         }
-        currentLink.set({ target: element })
+        currentLink.target(element)
 
         currentLink.attr('element/target', element.id)
         link = new joint.shapes.standard.Link()
@@ -149,7 +149,7 @@ function addElement(currentLink, element, type) {
             startPosition.x -= 175
         }
         element.position(startPosition.x, startPosition.y + 100)
-        currentLink.set({ target: element })
+        currentLink.target(element)
         currentLink.attr('element/target', element.id)
         link = new joint.shapes.standard.Link()
         link.vertices([
@@ -193,7 +193,7 @@ function addElement(currentLink, element, type) {
             startPosition.x -= 175
         }
         element.position(startPosition.x, startPosition.y + 100)
-        currentLink.set({ target: element })
+        currentLink.target(element)
         currentLink.attr('element/target', element.id)
         link = new joint.shapes.standard.Link()
         link.vertices([
@@ -240,7 +240,7 @@ function addElement(currentLink, element, type) {
         } else {
             element.position(startPosition.x, startPosition.y + 100)
         }
-        currentLink.set({ target: element })
+        currentLink.target(element)
         currentLink.attr('element/target', element.id)
         link = new joint.shapes.standard.Link()
         link.vertices([
@@ -300,7 +300,7 @@ function addElement(currentLink, element, type) {
         }
 
         element.position(startPosition.x, startPosition.y + 100)
-        currentLink.set({ target: element })
+        currentLink.target(element)
         currentLink.attr('element/target', element.id)
         link = new joint.shapes.standard.Link()
         element.attr({
@@ -331,7 +331,7 @@ function addElement(currentLink, element, type) {
         currentStart = findModel(currentLink.attr('element/source'))
         const startPosition = currentStart.position()
         element.position(startPosition.x, startPosition.y + 100)
-        currentLink.set({ target: element })
+        currentLink.target(element)
         currentLink.attr('element/target', element.id)
         link = new joint.shapes.standard.Link()
         link.source(element)
@@ -454,7 +454,7 @@ function addElementDoWhile(currentLink, element) {
         element.position(startPosition.x, startPosition.y + 250)
     }
 
-    currentLink.set({ target: doWhileStartCircle })
+    currentLink.target(doWhileStartCircle)
     currentLink.attr('element/target', doWhileStartCircle.id)
 
     // Creating the invisible link
@@ -715,7 +715,7 @@ function addElementWhile(currentLink, element, type) {
     }
 
     // Set Current End of the link to while element
-    currentLink.set({ target: element })
+    currentLink.target(element)
     currentLink.attr('element/target', element.id)
 
     // Make a new circle
@@ -1004,7 +1004,7 @@ function addElementIf(currentLink, element, type) {
     }
 
     // Set Current End of the link to IF element
-    currentLink.set({ target: element })
+    currentLink.target(element)
     currentLink.attr('element/target', element.id)
 
     // Make a new circle

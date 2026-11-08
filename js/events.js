@@ -556,10 +556,16 @@ function handleElementDoubleClick(elementView) {
     }
     $('#modal .modal-body').html(modalBodyHtml)
     $('#modal').modal('show')
-    $('#okButton').one('click', handlerFunction)
-    $('#xbtn').on('click', function () {
-        $('#okButton').off('click')
-    })
+    $('#okButton')
+        .off('click.blockEditor')
+        .one('click.blockEditor', () => {
+            executeGraphCommand('Edit block', handlerFunction)
+        })
+    $('#modal')
+        .off('hidden.bs.modal.blockEditor')
+        .on('hidden.bs.modal.blockEditor', () => {
+            $('#okButton').off('click.blockEditor')
+        })
     $('#isArray').ready(onArrayCheckboxChanged)
 }
 
@@ -634,18 +640,20 @@ function handleNamingConvention(variableName, type = 'Variable') {
 
 function handleDelete() {
     try {
-        let currentElement = $('#modal .modal-content').attr('data-element')
-        if (currentElement)
-            currentElement = findModel(JSON.parse(currentElement).id)
-        if (currentElement.attr('element/type') === 'if') {
-            deleteIF(currentElement)
-        } else if (currentElement.attr('element/type') === 'while') {
-            deleteWhile(currentElement)
-        } else if (currentElement.attr('element/type') === 'doWhileExpr') {
-            throw new Error("DoWhile Block can't be deleted")
-        } else {
-            deleteBlock(currentElement)
-        }
+        executeGraphCommand('Delete block', () => {
+            let currentElement = $('#modal .modal-content').attr('data-element')
+            if (currentElement)
+                currentElement = findModel(JSON.parse(currentElement).id)
+            if (currentElement.attr('element/type') === 'if') {
+                deleteIF(currentElement)
+            } else if (currentElement.attr('element/type') === 'while') {
+                deleteWhile(currentElement)
+            } else if (currentElement.attr('element/type') === 'doWhileExpr') {
+                throw new Error("DoWhile Block can't be deleted")
+            } else {
+                deleteBlock(currentElement)
+            }
+        })
     } catch (e) {
         swal(e.toString())
     }

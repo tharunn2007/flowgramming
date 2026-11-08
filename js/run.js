@@ -756,13 +756,20 @@ function clearAll() {
 }
 
 async function run() {
-    clearAll()
-    stopped = false
-    paused = false
-    await delayLoop(start)
-    $('#stop-btn').addClass('hidden')
-    $('#pause-btn').addClass('hidden')
-    $('#run-btn').removeClass('hidden')
+    if (historyExecutionRunning) return
+    setHistoryExecutionRunning(true)
+    try {
+        clearAll()
+        stopped = false
+        paused = false
+        await delayLoop(start)
+    } finally {
+        setHistoryExecutionRunning(false)
+        $('#stop-btn').addClass('hidden')
+        $('#pause-btn').addClass('hidden')
+        $('#play-btn').addClass('hidden')
+        $('#run-btn').removeClass('hidden')
+    }
 }
 
 async function pause() {
@@ -784,7 +791,7 @@ async function stopRun() {
     $('#stop-btn').addClass('hidden')
     $('#pause-btn').addClass('hidden')
     $('#play-btn').addClass('hidden')
-    $('#run-btn').removeClass('hidden')
+    // run() releases editing/history after the pending block has finished.
 }
 
 function isFloat(n) {

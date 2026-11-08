@@ -43,6 +43,7 @@ paper.on('link:pointerdblclick', function (linkView) {
 let doubleClickedLink
 
 function handleDoubleClick(linkView) {
+    if (historyExecutionRunning) return
     if (
         ['whileFalse', 'doWhileTrue'].includes(
             linkView.model.attr('element/type')
@@ -241,144 +242,164 @@ function populateAvailableElements(addElementGraph) {
 }
 
 function addOutput() {
-    const Parallelogram = getParallelogram()
-    Parallelogram.attr({
-        label: {
-            text: getWrapText('output'),
-        },
-        body: {
-            fill: blockColors.output,
-        },
+    executeGraphCommand('Add output', () => {
+        const Parallelogram = getParallelogram()
+        Parallelogram.attr({
+            label: {
+                text: getWrapText('output'),
+            },
+            body: {
+                fill: blockColors.output,
+            },
+        })
+        Parallelogram.addTo(graph)
+        addElement(doubleClickedLink, Parallelogram, 'output')
     })
-    Parallelogram.addTo(graph)
-    addElement(doubleClickedLink, Parallelogram, 'output')
 }
 
 function addInput() {
-    const Parallelogram = getParallelogram()
-    Parallelogram.attr({
-        label: {
-            text: getWrapText('input'),
-        },
-        body: {
-            fill: blockColors.input,
-        },
+    executeGraphCommand('Add input', () => {
+        const Parallelogram = getParallelogram()
+        Parallelogram.attr({
+            label: {
+                text: getWrapText('input'),
+            },
+            body: {
+                fill: blockColors.input,
+            },
+        })
+        Parallelogram.addTo(graph)
+        addElement(doubleClickedLink, Parallelogram, 'input')
     })
-    Parallelogram.addTo(graph)
-    addElement(doubleClickedLink, Parallelogram, 'input')
 }
 
 function addAssignment() {
-    const Rectangle = getRectangle()
-    Rectangle.attr({
-        label: {
-            text: getWrapText('Statement'),
-        },
-        body: {
-            fill: blockColors.assignment,
-        },
+    executeGraphCommand('Add assignment', () => {
+        const Rectangle = getRectangle()
+        Rectangle.attr({
+            label: {
+                text: getWrapText('Statement'),
+            },
+            body: {
+                fill: blockColors.assignment,
+            },
+        })
+        Rectangle.addTo(graph)
+        addElement(doubleClickedLink, Rectangle, 'assignment')
     })
-    Rectangle.addTo(graph)
-    addElement(doubleClickedLink, Rectangle, 'assignment')
 }
 
 function addFunction() {
-    const Rectangle = getRectangle()
-    Rectangle.attr({
-        label: {
-            text: getWrapText('Function'),
-        },
-        body: {
-            fill: blockColors.function,
-        },
+    executeGraphCommand('Add function call', () => {
+        const Rectangle = getRectangle()
+        Rectangle.attr({
+            label: {
+                text: getWrapText('Function'),
+            },
+            body: {
+                fill: blockColors.function,
+            },
+        })
+        Rectangle.addTo(graph)
+        addElement(doubleClickedLink, Rectangle, 'function')
     })
-    Rectangle.addTo(graph)
-    addElement(doubleClickedLink, Rectangle, 'function')
 }
 
 function addComment() {
-    const Rectangle = getRectangle()
-    Rectangle.attr({
-        label: {
-            text: getWrapText('Comment'),
-        },
-        body: {
-            fill: blockColors.comment,
-            strokeWidth: 1,
-            stroke: '#959595',
-            strokeDasharray: '2,2',
-        },
+    executeGraphCommand('Add comment', () => {
+        const Rectangle = getRectangle()
+        Rectangle.attr({
+            label: {
+                text: getWrapText('Comment'),
+            },
+            body: {
+                fill: blockColors.comment,
+                strokeWidth: 1,
+                stroke: '#959595',
+                strokeDasharray: '2,2',
+            },
+        })
+        Rectangle.addTo(graph)
+        addElement(doubleClickedLink, Rectangle, 'comment')
     })
-    Rectangle.addTo(graph)
-    addElement(doubleClickedLink, Rectangle, 'comment')
 }
 
 function addWhile() {
-    const hexagon = getHexagon()
-    hexagon.attr({
-        label: {
-            text: getWrapText('while'),
-        },
-        body: {
-            fill: blockColors.while,
-        },
+    executeGraphCommand('Add while loop', () => {
+        const hexagon = getHexagon()
+        hexagon.attr({
+            label: {
+                text: getWrapText('while'),
+            },
+            body: {
+                fill: blockColors.while,
+            },
+        })
+        hexagon.addTo(graph)
+        addElementWhile(doubleClickedLink, hexagon, 'while')
     })
-    hexagon.addTo(graph)
-    addElementWhile(doubleClickedLink, hexagon, 'while')
 }
 
 function addForLoop() {
-    const hexagon = getHexagon()
-    hexagon.attr({
-        label: {
-            text: getWrapText('for'),
-        },
-        body: {
-            fill: blockColors.for,
-        },
+    executeGraphCommand('Add for loop', () => {
+        const hexagon = getHexagon()
+        hexagon.attr({
+            label: {
+                text: getWrapText('for'),
+            },
+            body: {
+                fill: blockColors.for,
+            },
+        })
+        hexagon.addTo(graph)
+        addElementWhile(doubleClickedLink, hexagon, 'for')
     })
-    hexagon.addTo(graph)
-    addElementWhile(doubleClickedLink, hexagon, 'for')
 }
 
 function addDoWhileLoop() {
-    const hexagon = getHexagon()
-    hexagon.attr({
-        label: {
-            text: getWrapText('do-while'),
-        },
-        body: {
-            fill: blockColors.doWhile,
-        },
+    executeGraphCommand('Add do-while loop', () => {
+        const hexagon = getHexagon()
+        hexagon.attr({
+            label: {
+                text: getWrapText('do-while'),
+            },
+            body: {
+                fill: blockColors.doWhile,
+            },
+        })
+        hexagon.addTo(graph)
+        addElementDoWhile(doubleClickedLink, hexagon)
     })
-    hexagon.addTo(graph)
-    addElementDoWhile(doubleClickedLink, hexagon)
 }
 
 function addDeclaration() {
-    const Rectangle = getRectangle()
-    Rectangle.attr({
-        label: {
-            text: getWrapText('Declare Variable'),
-        },
-        body: {
-            fill: blockColors.declaration,
-        },
+    executeGraphCommand('Add declaration', () => {
+        const Rectangle = getRectangle()
+        Rectangle.attr({
+            label: {
+                text: getWrapText('Declare Variable'),
+            },
+            body: {
+                fill: blockColors.declaration,
+            },
+        })
+        Rectangle.addTo(graph)
+        addElement(doubleClickedLink, Rectangle, 'declare')
     })
-    Rectangle.addTo(graph)
-    addElement(doubleClickedLink, Rectangle, 'declare')
 }
 
 function addIF() {
-    const diamond = getDiamond()
-    diamond.attr({
-        label: {
-            text: getWrapText('if'),
-        },
-        body: {
-            fill: blockColors.if,
-        },
+    executeGraphCommand('Add condition', () => {
+        const diamond = getDiamond()
+        diamond.attr({
+            label: {
+                text: getWrapText('if'),
+            },
+            body: {
+                fill: blockColors.if,
+            },
+        })
+        diamond.addTo(graph)
+        addElementIf(doubleClickedLink, diamond, 'if')
     })
-    diamond.addTo(graph)
-    addElementIf(doubleClickedLink, diamond, 'if')
 }

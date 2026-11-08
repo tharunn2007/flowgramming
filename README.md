@@ -19,6 +19,14 @@ For novice programmer, it is usually difficult to de-link the programming logic 
 9. Function manager allows the custom definition of multiple functions.
 10. Can save and load all developed flowgrams (saved with extension ".fgmin").
 11. Progressive Web Application - Allows Flowgramming to be run with minimal computation cost.
+12. Undo and redo for block insertion, editing, deletion, and movement.
+
+Use the Undo/Redo toolbar buttons, Ctrl/Cmd+Z to undo, or Ctrl/Cmd+Shift+Z
+and Ctrl/Cmd+Y to redo. Text fields retain their normal text undo shortcuts.
+Each function has its own history of up to 100 commands. A new edit clears
+that function's redo stack. Saving and switching functions preserve history;
+opening a flowgram or applying function-manager changes starts fresh history.
+History lasts for the current browser session and is disabled during execution.
 
 ## How to use?
 
@@ -30,6 +38,9 @@ Have a look at the user manual [here](https://flowgrammers-org.github.io/flowgra
 -   Get into the flowgramming directory
 -   Install all dependencies: `npm i`
 -   Run the app: `npm start`
+
+Run `npm test` for command-stack tests. With the development server running,
+open `http://localhost:3000/tests/history.html` for browser integration tests.
 
 ## Overall Flow
 
@@ -52,6 +63,8 @@ Have a look at the user manual [here](https://flowgrammers-org.github.io/flowgra
 
 -   `sw.js`: Caching all of the app's contents and serving it offline
 -   `gulpfile.js`: Concatenating and minifying source files to production files
+-   `commandHistory.js`: Command objects and bounded undo/redo stacks
+-   `history.js`: Per-function graph history, toolbar controls, and shortcuts
 -   `addElement.js`: Fires when a link is double-clicked to add blocks [like declare, input, loops, etc] to the page
 -   `chat.js`: Enables users to type in inputs and displays outputs
 -   `convert.js`: A modular framework to implement code conversion from flow chart

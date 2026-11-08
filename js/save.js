@@ -94,6 +94,8 @@ function importFlowGram(file) {
         })
         start = findModel(contexts[currentContextName].start.id)
         updateContextsDropdown()
+        restoreGraphListeners()
+        clearGraphHistory()
     } catch (e) {
         swal('Something went wrong!')
     } finally {

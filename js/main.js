@@ -37,6 +37,7 @@ let paper = new joint.dia.Paper({
 })
 
 paper.on('element:pointerdblclick', function (elementView) {
+    if (historyExecutionRunning) return
     const currentElement = findModel(elementView.model.id)
     const currentElementType = currentElement.attr('element/type')
     if (!disabledBlocks.includes(currentElementType)) {
@@ -125,6 +126,9 @@ function switchContext() {
     } else {
         graph.fromJSON(toContext.graph)
     }
+    start = findModel(contexts[currentContextName].start.id)
+    restoreGraphListeners()
+    updateHistoryControls()
     paper.fitToContent({
         padding: 20,
         minWidth: paperColumn.width(),
@@ -147,7 +151,11 @@ function updateCurrentContexts(localContexts) {
         main: contexts.main,
         ...(localContexts || {}),
     }
-    contexts[currentContextName].graph = graph.toJSON()
+    if (contexts[currentContextName]) {
+        contexts[currentContextName].graph = graph.toJSON()
+    } else {
+        currentContextName = 'main'
+    }
 
     for (context in localContexts) {
         if (localContexts[context].graph) {
@@ -161,6 +169,10 @@ function updateCurrentContexts(localContexts) {
         }
     }
     graph.fromJSON(contexts[currentContextName].graph)
+    restoreGraphListeners()
+    updateContextsDropdown()
+    // Function signatures and graphs may have been replaced by the manager.
+    clearGraphHistory()
 }
 
 /**
@@ -182,6 +194,7 @@ function getCurrentContexts() {
  */
 function addNewContext(context) {
     contexts = { ...contexts, ...context }
+    clearGraphHistory()
 }
 
 /**

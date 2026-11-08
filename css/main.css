@@ -152,6 +152,24 @@ body {
     display: none !important;
 }
 
+.history-button {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: white;
+    cursor: pointer;
+}
+
+.history-button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.history-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
 button.close {
     width: 10%;
     margin-left: auto;

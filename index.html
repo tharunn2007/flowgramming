@@ -110,6 +110,54 @@
                         />
                     </svg>
                 </a>
+                <button
+                    class="nav-item history-button d-flex"
+                    id="undo-btn"
+                    type="button"
+                    title="Undo (Ctrl/Cmd+Z)"
+                    aria-label="Undo"
+                    disabled
+                >
+                    <svg
+                        class="mx-2 my-auto"
+                        width="1.5em"
+                        height="1.5em"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M9 4 3 10l6 6M3 10h11a7 7 0 0 1 0 14"
+                            transform="translate(0 -2)"
+                        />
+                    </svg>
+                </button>
+                <button
+                    class="nav-item history-button d-flex"
+                    id="redo-btn"
+                    type="button"
+                    title="Redo (Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y)"
+                    aria-label="Redo"
+                    disabled
+                >
+                    <svg
+                        class="mx-2 my-auto"
+                        width="1.5em"
+                        height="1.5em"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="m15 4 6 6-6 6m6-6H10a7 7 0 0 0 0 14"
+                            transform="translate(0 -2)"
+                        />
+                    </svg>
+                </button>
                 <a
                     class="nav-item d-flex"
                     href="#"
@@ -637,6 +685,7 @@
         })
 
         $('#open-btn').on('click', function () {
+            if (historyExecutionRunning) return
             $('#open-file').click()
         })
 
@@ -659,6 +708,7 @@
         })
         let functionManagerWindow
         $('#functionManager').click(function () {
+            if (historyExecutionRunning) return
             functionManagerWindow = openNewTab(
                 'functions.html',
                 'FunctionManager'
